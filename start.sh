@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -e /var/run/docker.sock ] ; then
+  echo Please map docker socket to /var/run/docker.sock
+  exit 1
+fi
+
 for container in $(docker ps -q) ; do
   for variable in $(docker inspect --format='{{range $p, $conf := .Config.Env}} {{$conf}} {{end}}' $container) ; do
 
